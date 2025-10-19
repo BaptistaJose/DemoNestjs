@@ -1,0 +1,13 @@
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity({ name: 'todos' })
+export class Todo {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+  @Column()
+  title: string;
+  @Column()
+  description: string;
+  @Column()
+  isCompleted: string;
+}
