@@ -5,6 +5,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guards/auth.guard';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import typeorm from './config/typeorm';
 
 @Module({
@@ -25,6 +26,7 @@ import typeorm from './config/typeorm';
     }),
     UsersModule,
     TodosModule,
+    CloudinaryModule,
   ],
   controllers: [],
   providers: [
