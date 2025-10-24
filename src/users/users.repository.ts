@@ -1,24 +1,29 @@
-import { Injectable } from "@nestjs/common";
-import { IUSer } from "./user.interface";
-import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "./entities/user.entity";
-import { Repository } from "typeorm";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { UserBodyDto } from './dtos/userBody.dto';
 
 @Injectable()
-export class UsersRepository{
-    constructor(@InjectRepository(User) private userRepository: Repository<User>){}
-   /* private users = [
-        {id: 1, name: 'John Doe', email: 'John@gmail.com'},
-        {id: 2, name: 'Jane Smith', email: 'jane@gmail.com'},
-        {id: 3, name: 'Alice Johnson', email: 'alice@gmail.com'},
-    ];*/
+export class UsersRepository {
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+  ) {}
 
-    async getUsers(){
-        return await this.userRepository.find()
-    }
+  async getUsers() {
+    return await this.userRepository.find();
+  }
 
-    createUser(user: Omit<IUSer, 'id'>){
-         
-        return this.userRepository.save(user);
-    }
+  async createUser(user: UserBodyDto) {
+    return await this.userRepository.save(user);
+  }
+
+  async updateUser(id: string, user: UserBodyDto) {
+    const userFound = await this.userRepository.findOneBy({ id });
+    if (!userFound) {throw new NotFoundException(`User with id ${id} not found`);}
+
+    await this.userRepository.update(id, user);
+
+    return 'User Update';
+  }
 }

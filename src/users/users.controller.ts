@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, HttpCode, Post, Put, Req, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Put, Req, UseGuards, UseInterceptors } from "@nestjs/common";
 import { UsersService } from "./users.service";
-import type { IUSer } from "./user.interface";
 import { AuthGuard } from "src/guards/auth.guard";
 import { DateAdderInterceptor } from "src/interceptors/date-adder.interceptor";
+import { UserBodyDto } from "./dtos/userBody.dto";
 
 @Controller('users')
 export class UsersController{
@@ -10,26 +10,27 @@ export class UsersController{
 
     @Get()
     @UseGuards(AuthGuard)
-    getUsers(){
-        return this.usersService.getUSers();
+   async getUsers(){
+        return  await this.usersService.getUSers();
     }
 
     @HttpCode(201)
     @Post()
     @UseInterceptors(DateAdderInterceptor)
-    createUSer(@Body() user: IUSer, @Req() request ){
+     async createUSer(@Body() user: UserBodyDto, @Req() request ){
         console.log("Nueva propiedad implementada en el objeto req:", request.now);
         
-        return this.usersService.createUser(user)
+        return await this.usersService.createUser(user)
     }
 
-    @Put()
-    updateUser(){
-        return 'Este endpoint actualiza un usuario'
+    @Put(':id')
+    @UseGuards(AuthGuard)
+   async updateUser(@Param('id', ParseUUIDPipe) id:string, @Body() user: any){
+        return await this.usersService.updateUser(id,user)
     }
 
     @Delete()
-    deleteUser(){
-        return 'Este endpoint elimina un usuario'
+   async deleteUser(){
+        throw new Error('jajaxd')
     }
 }

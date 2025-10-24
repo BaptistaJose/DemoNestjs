@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { File } from './file.entity';
 
 @Entity({ name: 'todos' })
 export class Todo {
@@ -8,6 +9,9 @@ export class Todo {
   title: string;
   @Column()
   description: string;
-  @Column()
-  isCompleted: string;
+  @Column({type:'boolean', default: false})
+  isCompleted: boolean;
+
+  @OneToMany(()=> File, (file)=>file.todo)
+  file: File[]
 }

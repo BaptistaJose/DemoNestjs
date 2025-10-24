@@ -1,21 +1,25 @@
 import { HttpException, Inject, Injectable } from "@nestjs/common";
 import { UsersRepository } from "./users.repository";
-import { IUSer } from "./user.interface";
+import { User } from "./entities/user.entity";
+import { UserBodyDto } from "./dtos/userBody.dto";
 
 
 @Injectable()
 export class UsersService{
-    constructor(private readonly usersRepository: UsersRepository, @Inject('ACCESS_TOKEN') private accesToken: string){}
+    constructor(private readonly usersRepository: UsersRepository){}
     
-    getUSers(){
-        return this.accesToken === 'Esta es mi clave secreta' ? this.usersRepository.getUsers(): 'No tiene acceso a los usuarios';
+   async  getUSers(){
+        return await this.usersRepository.getUsers()
     }
-
-    createUser(user: Omit<IUSer, 'id'>){
+    
+   async  createUser(user: UserBodyDto){
         if(!user){
             throw new HttpException('Faltan propiedades para crear el usuario', 400);
         }
-
-        return this.usersRepository.createUser(user)
+        
+        return await this.usersRepository.createUser(user)
+    }
+   async  updateUser(id: string, user: User) {
+        return await this.usersRepository.updateUser(id, user)
     }
 }
