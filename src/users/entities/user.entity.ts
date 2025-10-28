@@ -11,6 +11,9 @@ export class User{
     @Column()
     email:string;
 
+    @Column({nullable: false})
+    password:string
+
     @Column({default: false})
     createdAt: boolean;
 }

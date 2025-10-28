@@ -1,15 +1,21 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { TodosModule } from './todos/todos.module';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './guards/auth.guard';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import typeorm from './config/typeorm';
+import { JwtModule } from '@nestjs/jwt';
+import {config as dotenvConfig} from "dotenv"
+dotenvConfig({path: './.env.development'})
 
 @Module({
   imports: [
+    JwtModule.register({
+      global: true,
+      signOptions: { expiresIn: '1h' },
+      secret: process.env.JWT_SECRET
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [typeorm],
@@ -29,11 +35,6 @@ import typeorm from './config/typeorm';
     CloudinaryModule,
   ],
   controllers: [],
-  providers: [
-    /*{
-    provide: APP_GUARD,
-    useClass: AuthGuard
-  }*/
-  ],
+  providers: [],
 })
 export class AppModule {}

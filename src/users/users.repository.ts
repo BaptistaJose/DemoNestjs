@@ -20,10 +20,16 @@ export class UsersRepository {
 
   async updateUser(id: string, user: UserBodyDto) {
     const userFound = await this.userRepository.findOneBy({ id });
-    if (!userFound) {throw new NotFoundException(`User with id ${id} not found`);}
+    if (!userFound) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
 
     await this.userRepository.update(id, user);
 
     return 'User Update';
+  }
+  async getByEmail(email: string) {
+    const userExist = await this.userRepository.findOneBy({email})
+    return userExist
   }
 }

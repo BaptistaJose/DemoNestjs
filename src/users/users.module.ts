@@ -4,6 +4,7 @@ import { UsersController } from "./users.controller";
 import { UsersRepository } from "./users.repository";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "./entities/user.entity";
+import { AuthService } from "./auth.service";
 
 @Module({
     imports:[TypeOrmModule.forFeature([User])],
@@ -11,7 +12,8 @@ import { User } from "./entities/user.entity";
         {
         provide: "ACCESS_TOKEN",
         useValue: "Esta es mi clave secreta"
-    }
+    },
+    AuthService
 ],
     controllers:[UsersController],
 })

@@ -8,18 +8,23 @@ import { UserBodyDto } from "./dtos/userBody.dto";
 export class UsersService{
     constructor(private readonly usersRepository: UsersRepository){}
     
-   async  getUSers(){
+    async  getUSers(){
         return await this.usersRepository.getUsers()
     }
     
-   async  createUser(user: UserBodyDto){
+    async  createUser(user: UserBodyDto){
         if(!user){
             throw new HttpException('Faltan propiedades para crear el usuario', 400);
         }
         
         return await this.usersRepository.createUser(user)
     }
-   async  updateUser(id: string, user: User) {
+    async  updateUser(id: string, user: User) {
         return await this.usersRepository.updateUser(id, user)
+    }
+    
+    async getByEmail(email: string) {
+       const user = await this.usersRepository.getByEmail(email)
+       return user
     }
 }
