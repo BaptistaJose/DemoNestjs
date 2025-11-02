@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, IsStrongPassword } from "class-validator";
+import { IsBoolean, IsEmail, IsEmpty, IsNotEmpty, IsOptional, IsString, IsStrongPassword } from "class-validator";
 
 export class UserBodyDto{
     @IsString()
@@ -13,4 +13,8 @@ export class UserBodyDto{
     @IsNotEmpty()
     @IsStrongPassword()
     password:string
+
+    
+    @IsOptional()
+    isAdmin?: boolean
 }

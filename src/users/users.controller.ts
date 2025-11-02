@@ -18,6 +18,8 @@ import { DateAdderInterceptor } from 'src/interceptors/date-adder.interceptor';
 import { UserBodyDto } from './dtos/userBody.dto';
 import { AuthService } from './auth.service';
 import type { Request } from 'express';
+import { Roles } from 'src/decorators/roles.decorator';
+import { RolesEnum } from './enum/roles.enum';
 
 @Controller('users')
 export class UsersController {
@@ -28,10 +30,18 @@ export class UsersController {
 
   @Get()
   @UseGuards(AuthGuard)
+  @Roles(RolesEnum.Admin)
   async getUsers(@Req() request: Request & {user: any}) {
     console.log(request.user);
     
     return await this.usersService.getUSers();
+  }
+
+  @Get('auth0/protected')
+  async getAuth0Protected(@Req() req: Request){
+    console.log(req.oidc.accessToken);
+    
+    return JSON.stringify(req.oidc.user)
   }
 
   @Post('signUp')

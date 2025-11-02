@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
 import { config as dotenvConfig } from 'dotenv';
+import { RolesEnum } from 'src/users/enum/roles.enum';
 dotenvConfig({ path: './.env.development' });
 
 @Injectable()
@@ -27,7 +28,7 @@ export class AuthGuard implements CanActivate {
       const payload = this.jwstService.verify(token, { secret });
       payload.iat = new Date(payload.iat * 1000)
       payload.exp = new Date(payload.exp * 1000)
-      payload.roles = ['admin'];
+      payload.roles = [RolesEnum.Admin];
       request.user = payload;
       return true;
     } catch (error) {
