@@ -12,7 +12,7 @@ export class UsersService{
         return await this.usersRepository.getUsers()
     }
     
-    async  createUser(user: UserBodyDto){
+    async  createUser(user: Omit<User, 'id'>){
         if(!user){
             throw new HttpException('Faltan propiedades para crear el usuario', 400);
         }

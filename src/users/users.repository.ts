@@ -14,7 +14,7 @@ export class UsersRepository {
     return await this.userRepository.find();
   }
 
-  async createUser(user: UserBodyDto) {
+  async createUser(user: Omit<User, 'id'>) {
     return await this.userRepository.save(user);
   }
 
@@ -28,7 +28,7 @@ export class UsersRepository {
 
     return 'User Update';
   }
-  async getByEmail(email: string) {
+  async getByEmail(email: string): Promise<User | undefined | null> {
     const userExist = await this.userRepository.findOneBy({email})
     return userExist
   }

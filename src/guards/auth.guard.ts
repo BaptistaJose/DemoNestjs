@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
 import { config as dotenvConfig } from 'dotenv';
-import { RolesEnum } from 'src/users/enum/roles.enum';
+import { RolesEnum } from '../users/enum/roles.enum';
 dotenvConfig({ path: './.env.development' });
 
 @Injectable()

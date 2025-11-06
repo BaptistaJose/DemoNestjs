@@ -13,13 +13,14 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { DateAdderInterceptor } from 'src/interceptors/date-adder.interceptor';
+import { AuthGuard } from '../guards/auth.guard';
+import { DateAdderInterceptor } from '../interceptors/date-adder.interceptor';
 import { UserBodyDto } from './dtos/userBody.dto';
 import { AuthService } from './auth.service';
 import type { Request } from 'express';
-import { Roles } from 'src/decorators/roles.decorator';
+import { Roles } from '../decorators/roles.decorator';
 import { RolesEnum } from './enum/roles.enum';
+import { User } from './entities/user.entity';
 
 @Controller('users')
 export class UsersController {
@@ -46,7 +47,7 @@ export class UsersController {
 
   @Post('signUp')
   @UseInterceptors(DateAdderInterceptor)
-  async createUSer(@Body() user: UserBodyDto) {
+  async createUSer(@Body() user: Omit<User, 'id'>) {
     return await this.authService.singUp(user)
   }
 

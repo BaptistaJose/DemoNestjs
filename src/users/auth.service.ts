@@ -16,7 +16,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async singUp(user: UserBodyDto) {
+  async singUp(user: Omit<User, 'id'>) {
     const userExist = await this.userService.getByEmail(user.email);
     if (userExist)
       throw new BadRequestException('Este mail ya se encuentra registrado');

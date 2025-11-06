@@ -18,5 +18,5 @@ export class User {
   isAdmin: boolean;
 
   @Column({ default: false })
-  createdAt: boolean;
+  createdAt?: boolean;
 }
