@@ -21,7 +21,8 @@ import type { Request } from 'express';
 import { Roles } from '../decorators/roles.decorator';
 import { RolesEnum } from './enum/roles.enum';
 import { User } from './entities/user.entity';
-
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(
@@ -29,6 +30,7 @@ export class UsersController {
     private readonly authService: AuthService,
   ) {}
 
+  @ApiBearerAuth()
   @Get()
   @UseGuards(AuthGuard)
   @Roles(RolesEnum.Admin)
@@ -47,7 +49,7 @@ export class UsersController {
 
   @Post('signUp')
   @UseInterceptors(DateAdderInterceptor)
-  async createUSer(@Body() user: Omit<User, 'id'>) {
+  async createUSer(@Body() user: UserBodyDto) {
     return await this.authService.singUp(user)
   }
 

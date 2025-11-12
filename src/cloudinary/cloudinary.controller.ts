@@ -10,11 +10,12 @@ import {
 } from '@nestjs/common';
 import { CloudinaryService } from './cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('cloudinary')
 export class CloudinaryController {
   constructor(private readonly cloudinaryService: CloudinaryService) {}
-
+@ApiTags('cloudinary')
   @Post('upload')
   @UseInterceptors(FileInterceptor('image'))
   async uploadImage(

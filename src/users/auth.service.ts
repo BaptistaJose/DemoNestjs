@@ -16,12 +16,12 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async singUp(user: Omit<User, 'id'>) {
+  async singUp(user: UserBodyDto) {
     const userExist = await this.userService.getByEmail(user.email);
     if (userExist)
       throw new BadRequestException('Este mail ya se encuentra registrado');
 
-    const hashedPassword = await bcrypt.hash(user.password, 10);
+    const hashedPassword = await bcrypt.hash(user?.password, 10);
 
     if (!hashedPassword)
       throw new BadRequestException('La contrasena no se pudo hashear');

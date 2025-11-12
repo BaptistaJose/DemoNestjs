@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Post, UploadedFile, UseInterceptors, NotFoundException } from "@nestjs/common";
 import { TodosService } from "./todos.service";
 import { FileInterceptor } from "@nestjs/platform-express";
-
+import { ApiTags } from "@nestjs/swagger";
+@ApiTags('todos')
 @Controller('todos')
 export class TodosController{
     constructor(private readonly todosService: TodosService){}

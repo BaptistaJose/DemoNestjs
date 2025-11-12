@@ -14,7 +14,7 @@ export class UsersRepository {
     return await this.userRepository.find();
   }
 
-  async createUser(user: Omit<User, 'id'>) {
+  async createUser(user: Partial<User>) {
     return await this.userRepository.save(user);
   }
 
